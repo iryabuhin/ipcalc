@@ -12,6 +12,7 @@ def str_to_octets(address: str) -> List[int]:
 
 
 IPV4_MAX = (1 << 32) - 1
+
 IPV4_REGEX = r'^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])(\.(?!$)|$)){4}$'
 IPV4_REGEX_WITH_PREFIX = r'^(?P<address>((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\/(?P<prefix>[0-9]|1[0-9]|2[0-9]|3[0-2])$'
 
@@ -19,12 +20,12 @@ IPV4_REGEX_WITH_PREFIX = r'^(?P<address>((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\
 @functools.total_ordering
 class IPV4Address:
 
-    __classes = {
-        '0000': {'name': 'A', 'cidr': 8},
-        '1000': {'name': 'B', 'cidr': 16},
-        '1100': {'name': 'C', 'cidr': 24},
-        '1110': {'name': 'D'},
-        '1111': {'name': 'E'}
+    CLASSFULL_NETWORKS_BY_LEADING_BITS = {
+        '0000': {'name': 'A', 'start': '0.0.0.0', 'end': '127.255.255.255', 'mask': '255.0.0.0'},
+        '1000': {'name': 'B', 'start': '128.0.0.0', 'end': '191.255.255.255', 'mask': '255.255.0.0'},
+        '1100': {'name': 'C', 'start': '192.0.0.0', 'end': '223.255.255.255', 'mask': '255.255.255.0'},
+        '1110': {'name': 'D (multicast)', 'start': '224.0.0.0', 'end': '239.255.255.255', 'mask': '(не опредлено)'},
+        '1111': {'name': 'E (reserved)', 'start': '240.0.0.0', 'end': '255.255.255.255', 'mask': '(не опредлено)'}
     }
 
     def __init__(self, addr: str, cidr: int = None):

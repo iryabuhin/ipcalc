@@ -46,13 +46,23 @@ class GetClassfulNetworkInfo(Task):
                 print("Попробуйте еще раз!")
             else:
                 ok = True
-                self.ip = IPV4Address(addr)
+                self.ip = addr
 
     def perform_task(self) -> None:
-        class_A = IPV4Address("10.0.0.0/8")
-        class_B = IPV4Address("172.16.0.0/12")
-        class_C = IPV4Address("192.168.0.0/16")
+        octets = list(map(int, self.ip.split('.')))
+        leading_bits = bin(octets[0])[2:6]
 
+        network_class = IPV4Address.CLASSFULL_NETWORKS_BY_LEADING_BITS[leading_bits]
+
+        print(
+            f"{Style.BRIGHT}"
+            f"Класс сети: {network_class['name']}\n"
+            f"Адрес сети: {network_class['start']}\n"
+            f"Маска сети: {network_class['mask']}\n"
+            f"Адрес широковещательной рассылки: {network_class['end']}\n"
+            f"{Style.RESET_ALL}"
+        )
+        
 
 class SubnetAddrAndBroadcastAddrTask(Task):
 

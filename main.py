@@ -27,6 +27,7 @@ def get_option_number(options: List[str], prompt: Optional[str] = None) -> int:
 class Application:
 
     tasks = [
+        GetClassfulNetworkInfo,
         TwoAddressesInOneSubnet,
         CheckSubnetMaskCorrectness,
         MaxMaskLenForTwoAddresses,
