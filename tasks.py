@@ -41,8 +41,7 @@ class GetClassfulNetworkInfo(Task):
         while not ok:
             addr = input("Введите IP-адрес: ").strip()
             if not re.match(IPV4_REGEX, addr):
-                print(Fore.RED, "Некорректный формат адреса!")
-                print(Style.RESET_ALL)
+                print(Fore.RED, "Некорректный формат адреса!", Style.RESET_ALL)
                 print("Попробуйте еще раз!")
             else:
                 ok = True
@@ -132,7 +131,8 @@ class CheckSubnetMaskCorrectness(Task):
         if mask | ((1 << right_zero_bits) - 1) == 0xFFFFFFFF:
             print(Fore.GREEN, "Введенная маска сети корректна")
         else:
-            print(Fore.RED, "Маска некорректна", Style.RESET_ALL)
+            print(Fore.RED, "Маска некорректна")
+        print(Style.RESET_ALL)
 
 
 class AddrIsSubnetAddrForGivenAddrTask(Task):
